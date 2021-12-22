@@ -1,0 +1,29 @@
+{
+  "name": "@masfree/moleculer-agenda-mixin",
+  "version": "1.0.0",
+  "description": "Moleculer Framework Mixin: Job Scheduling for Agenda",
+  "license": "MIT",
+  "repository": "masfree/moleculer-agenda-mixin",
+  "main": "index.js",
+  "keywords": [
+    "moleculer",
+    "moleculerjs",
+    "agenda"
+  ],
+  "author": "masfree",
+  "bugs": {
+    "url": "https://github.com/masfree/moleculer-agenda-mixin/issues"
+  },
+  "homepage": "https://github.com/masfree/moleculer-agenda-mixin#readme",
+  "dependencies": {
+    "agenda": "^4.2.1"
+  },
+  "files": [
+    "index.*",
+    "src/*"
+  ],
+  "devDependencies": {
+    "jest": "^27.4.5",
+    "moleculer": "^0.14.18"
+  }
+}
