@@ -19,7 +19,8 @@ options = {
   // initOnStart: true - starts the agenda after starting the service
   initOnStart: false,
   // if initOnStart: false - then you need to connect the agenda to the events of your application
-  // it helps when you have scheduled tasks that can start immediately after starting and they are dependent on other parts of the application
+  // it helps when you have scheduled tasks that can start immediately after starting and they
+  // are dependent on other parts of the application
   events: {
     'services.started': {
       async handler() {
@@ -38,7 +39,7 @@ options = {
 module.exports = {
   name: 'workers',
   version: 1,
-  // The first is the agenda parameter the second is the mixin parameter
+  // The first is the agenda options the second is the mixin options
   mixins: [AgendaMixin({ db: { address: process.env.AGENDA_MONGO_URI } }, options)],
   events: {
     'agenda.started': {
@@ -53,7 +54,9 @@ module.exports = {
       async handler(ctx) {
         const timeNow = new Date()
         const dayAgo = date('1 day ago')
-        await ctx.call('v1.payments.tryToPay', { query: { nextPay: { $gte: dayAgo, $lte: timeNow }, active: true } })
+        await ctx.call('v1.payments.tryToPay', {
+          query: { nextPay: { $gte: dayAgo, $lte: timeNow }, active: true }
+        })
       },
     },
     payEnd: {

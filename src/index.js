@@ -11,7 +11,6 @@ module.exports = (agendaParams = {}, options = { initOnStart: true, events: {} }
   },
   methods: {
     async agendaStart() {
-      console.log('new Agenda(agendaParams)')
       const agenda = new Agenda(agendaParams)
       this.agenda = agenda
       await this.agenda.start()

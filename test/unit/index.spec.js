@@ -13,7 +13,6 @@ describe('Test Agenda Mixin', () => {
   const errorMessage = 'errorTest'
   const error = new Error(errorMessage)
   const sampleJobObject = {}
-  const int = '* * * * *'
   const validJob = new RegExp('^validJob')
 
   const mockDisableEnable = jest.fn()
@@ -135,9 +134,8 @@ describe('Test Agenda Mixin', () => {
           this.jobs = defineJobs
         },
       }
-      const service = broker.createService(defineAgendaService)
+      broker.createService(defineAgendaService)
       await broker.start()
-      const { jobs } = defineAgendaService
       expect(agendaMock.define)
       .toHaveBeenNthCalledWith(1, 'testJob1', defineJobs['testJob1'])
       expect(agendaMock.define)
