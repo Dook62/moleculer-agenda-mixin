@@ -1,5 +1,9 @@
-/**
-* moleculer-agenda-mixin
-*/
+/*
+ * moleculer-agenda-mixin
+ * Copyright (c) 2021 roky.rocks (https://github.com/ROKY-ROCKS/moleculer-agenda-mixin)
+ * MIT Licensed
+ */
 
-module.exports = require('./src');
+"use strict";
+
+module.exports = require("./src");

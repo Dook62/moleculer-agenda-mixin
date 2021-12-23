@@ -1,4 +1,9 @@
-# moleculer-agenda-mixin
+
+[![Build Status](https://travis-ci.org/ROKY-ROCKS/moleculer-agenda-mixin.svg?branch=main)](https://travis-ci.org/ROKY-ROCKS/moleculer-awesome)
+[![Coverage Status](https://coveralls.io/repos/github/ROKY-ROCKS/moleculer-agenda-mixin/badge.svg?branch=main)](https://coveralls.io/github/ROKY-ROCKS/moleculer-agenda-mixin?branch=main)
+[![Known Vulnerabilities](https://snyk.io/test/github/ROKY-ROCKS/moleculer-agenda-mixin/badge.svg)](https://snyk.io/test/github/ROKY-ROCKS/moleculer-agenda-mixin)
+
+# moleculer-agenda-mixin  [![NPM version](https://img.shields.io/npm/v/moleculer-agenda-mixin.svg)](https://www.npmjs.com/package/moleculer-agenda-mixin)
 
 The [Agenda](https://www.npmjs.com/package/agenda) Mixin for Moleculer.
 
@@ -11,8 +16,8 @@ npm install moleculer-agenda-mixin --save
 ## Usage
 
 ```js
-const date = require('date.js')
-const AgendaMixin = require('../index')
+const date = require('date.js');
+const AgendaMixin = require('../index');
 
 // Options to config agenda mixin
 options = {
@@ -24,17 +29,17 @@ options = {
   events: {
     'services.started': {
       async handler() {
-        await this.agendaStart()
+        await this.agendaStart();
       },
     },
     // and stop if your need it
     'services.stopped': {
       async handler() {
-        await this.agendaStop()
+        await this.agendaStop();
       },
     },
   }
-}
+};
 
 module.exports = {
   name: 'workers',
@@ -44,19 +49,19 @@ module.exports = {
   events: {
     'agenda.started': {
       async handler() {
-        await this.agenda.cancel({ name: 'checkPayments' })
-        await this.agenda.schedule('everyday at 10:00', 'checkPayments')
+        await this.agenda.cancel({ name: 'checkPayments' });
+        await this.agenda.schedule('everyday at 10:00', 'checkPayments');
       },
     },
   },
   actions: {
     checkPayments: {
       async handler(ctx) {
-        const timeNow = new Date()
-        const dayAgo = date('1 day ago')
+        const timeNow = new Date();
+        const dayAgo = date('1 day ago');
         await ctx.call('v1.payments.tryToPay', {
           query: { nextPay: { $gte: dayAgo, $lte: timeNow }, active: true }
-        })
+        });
       },
     },
     payEnd: {
@@ -64,9 +69,9 @@ module.exports = {
         id: 'any',
       },
       async handler(ctx) {
-        const { id } = ctx.params
+        const { id } = ctx.params;
         // In action services, you can use a clean agenda to schedule jobs
-        this.agenda.schedule('1 day', 'payEnd', { id })
+        this.agenda.schedule('1 day', 'payEnd', { id });
       },
     },
   },
@@ -74,16 +79,16 @@ module.exports = {
     // all tasks in this list after the "agendaStart" method are defined as available agenda tasks
     this.jobs = {
       checkPayments: async (_job) => {
-        this.broker.call('v1.workers.checkPayments', {})
+        this.broker.call('v1.workers.checkPayments', {});
       },
       payEnd: async (job) => {
         // In action services, you can use a clean agenda to schedule jobs
-        const { id } = job.attrs.data
-        this.broker.call('v1.notifications.payEnd', { id })
+        const { id } = job.attrs.data;
+        this.broker.call('v1.notifications.payEnd', { id });
       },
-    }
+    };
   },
-}
+};
 ```
 
 For more information on use, refer to the [Agenda documentation](https://github.com/agenda/agenda).
