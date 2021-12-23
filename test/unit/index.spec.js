@@ -17,7 +17,7 @@ describe('Test Agenda Mixin', () => {
 
   const mockDisableEnable = jest.fn()
   .mockImplementation((query) => {
-    if (typeof query.name !== 'undefined' && query.name === 'validJob') {
+    if (query.name === 'validJob') {
       return Promise.resolve(1)
     }
     return Promise.resolve(0)
@@ -30,9 +30,9 @@ describe('Test Agenda Mixin', () => {
     define: jest.fn(),
     schedule: jest.fn().mockImplementation((when, name) => {
       if (validJob.test(name)) {
-        return Promise.resolve(sampleJobObject);
+        return Promise.resolve(sampleJobObject)
       }
-      return Promise.reject(error);
+      return Promise.reject(error)
     }),
     every: jest.fn().mockImplementation((when, name) => {
       if (validJob.test(name)) {
@@ -49,6 +49,7 @@ describe('Test Agenda Mixin', () => {
     }),
     disable: mockDisableEnable,
     enable: mockDisableEnable,
+    cancel: mockDisableEnable,
   }
   Agenda.mockImplementation(() => agendaMock)
 
@@ -72,13 +73,13 @@ describe('Test Agenda Mixin', () => {
 
   describe('Agenda', () => {
     it('should be started and stopped properly', async () => {
-      const service = broker.createService(AgendaMixin());
-      await broker.start();
-      expect(agendaMock.start).toHaveBeenCalled();
-      await broker.stop();
-      expect(agendaMock.stop).toHaveBeenCalled();
-      broker.destroyService(service);
-    });
+      const service = broker.createService(AgendaMixin())
+      await broker.start()
+      expect(agendaMock.start).toHaveBeenCalled()
+      await broker.stop()
+      expect(agendaMock.stop).toHaveBeenCalled()
+      broker.destroyService(service)
+    })
   })
 
   describe('Agenda when { initOnStart: false }', () => {
@@ -107,7 +108,7 @@ describe('Test Agenda Mixin', () => {
       broker.destroyService(service)
     })
 
-    it('should be started or stopped after correct service event  emit', async () => {
+    it('should be started or stopped after correct service event emit', async () => {
       const service = broker.createService(AgendaMixin({}, options))
       await broker.start()
       await broker.emit('started')
@@ -141,6 +142,90 @@ describe('Test Agenda Mixin', () => {
       expect(agendaMock.define)
       .toHaveBeenNthCalledWith(2, 'testJob2',  defineJobs['testJob2'])
       await broker.stop()
+    })
+  })
+
+  describe('agendaCancel', () => {
+    it('should call agenda.disable', async () => {
+      const disableJobService = {
+        name: 'testCancel',
+        mixins: [AgendaMixin()],
+        jobs: {
+          validJob: {
+            handler: () => {},
+          }
+        },
+      }
+      const service = broker.createService(disableJobService)
+      await broker.start()
+
+      const result1 = await broker.call('testCancel.agendaCancel', { name: 'validJob' })
+      const result2 = await broker.call('testCancel.agendaCancel', { name: 'anyJob' })
+
+      expect(agendaMock.cancel)
+      .toHaveBeenNthCalledWith(1, { name: 'validJob' })
+      expect(result1).toBe(1)
+      expect(agendaMock.cancel)
+      .toHaveBeenNthCalledWith(2, { name: 'anyJob' })
+      expect(result2).toBe(0)
+      await broker.stop()
+      broker.destroyService(service)
+    })
+  })
+
+  describe('agendaDisable', () => {
+    it('should call agenda.disable', async () => {
+      const disableJobService = {
+        name: 'testDisable',
+        mixins: [AgendaMixin()],
+        jobs: {
+          validJob: {
+            handler: () => {},
+          }
+        },
+      }
+      const service = broker.createService(disableJobService)
+      await broker.start()
+
+      const result1 = await broker.call('testDisable.agendaDisable', { name: 'validJob' })
+      const result2 = await broker.call('testDisable.agendaDisable', { name: 'anyJob' })
+
+      expect(agendaMock.disable)
+      .toHaveBeenNthCalledWith(1, { name: 'validJob' })
+      expect(result1).toBe(1)
+      expect(agendaMock.disable)
+      .toHaveBeenNthCalledWith(2, { name: 'anyJob' })
+      expect(result2).toBe(0)
+      await broker.stop()
+      broker.destroyService(service)
+    })
+  })
+
+  describe('agendaEnable', () => {
+    it('should call agenda.enable', async () => {
+      const disableJobService = {
+        name: 'testEnable',
+        mixins: [AgendaMixin()],
+        jobs: {
+          validJob: {
+            handler: () => {},
+          }
+        },
+      }
+      const service = broker.createService(disableJobService)
+      await broker.start()
+
+      const result1 = await broker.call('testEnable.agendaEnable', { name: 'validJob' })
+      const result2 = await broker.call('testEnable.agendaEnable', { name: 'anyJob' })
+
+      expect(agendaMock.enable)
+      .toHaveBeenNthCalledWith(1, { name: 'validJob' })
+      expect(result1).toBe(1)
+      expect(agendaMock.enable)
+      .toHaveBeenNthCalledWith(2, { name: 'anyJob' })
+      expect(result2).toBe(0)
+      await broker.stop()
+      broker.destroyService(service)
     })
   })
 })

@@ -3,6 +3,36 @@ const Agenda = require('agenda')
 module.exports = (agendaParams = {}, options = { initOnStart: true, events: {} }) => ({
   name: 'agenda-mixin',
   events: options.events || {},
+  actions: {
+    agendaCancel: {
+      params: {
+        name: 'string',
+      },
+      async handler({ params }) {
+        const { name } = params
+        console.log(this.agenda)
+        return this.agenda.cancel({ name })
+      },
+    },
+    agendaDisable: {
+      params: {
+        name: 'string',
+      },
+      async handler({ params }) {
+        const { name } = params
+        return this.agenda.disable({ name })
+      },
+    },
+    agendaEnable: {
+      params: {
+        name: 'string',
+      },
+      async handler({ params }) {
+        const { name } = params
+        return this.agenda.enable({ name })
+      },
+    },
+  },
   async started() {
     if (options.initOnStart) return this.agendaStart()
   },
