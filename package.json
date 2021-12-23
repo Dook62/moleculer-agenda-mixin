@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ROKY-ROCKS/moleculer-agenda-mixin.git"
+    "url": "git+https://github.com/ROKY-ROCKS/moleculer-agenda-mixin.git"
   },
   "author": "Alexander",
   "license": "MIT",
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "benchmarkify": "^2.1.2",
-    "coveralls": "^3.1.0",
+    "coveralls": "^3.1.1",
     "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-node": "^11.1.0",
@@ -61,5 +61,9 @@
   },
   "engines": {
     "node": ">= 10.x.x"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "test"
   }
 }

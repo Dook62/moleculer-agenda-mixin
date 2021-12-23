@@ -1,5 +1,4 @@
 
-[![Build Status](https://travis-ci.org/ROKY-ROCKS/moleculer-agenda-mixin.svg?branch=main)](https://travis-ci.org/ROKY-ROCKS/moleculer-awesome)
 [![Coverage Status](https://coveralls.io/repos/github/ROKY-ROCKS/moleculer-agenda-mixin/badge.svg?branch=main)](https://coveralls.io/github/ROKY-ROCKS/moleculer-agenda-mixin?branch=main)
 [![Known Vulnerabilities](https://snyk.io/test/github/ROKY-ROCKS/moleculer-agenda-mixin/badge.svg)](https://snyk.io/test/github/ROKY-ROCKS/moleculer-agenda-mixin)
 
