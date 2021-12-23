@@ -1,7 +1,6 @@
 const Agenda = require('agenda')
 const events = require('events')
 const { ServiceBroker } = require('moleculer')
-const { MoleculerError } = require('moleculer').Errors
 
 const AgendaMixin = require('../../src')
 
