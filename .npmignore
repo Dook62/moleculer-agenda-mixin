@@ -1,3 +1,10 @@
+moleculer-awesome
+node_modules
+.env
+.travis.yml
+prettier.config.js
+
+.idea/
 .vscode/
 .github/
 benchmark/
