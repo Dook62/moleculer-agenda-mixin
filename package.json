@@ -1,6 +1,6 @@
 {
   "name": "moleculer-agenda-mixin",
-  "version": "0.1.0.1",
+  "version": "0.1.1",
   "description": "Moleculer Framework Mixin: Job Scheduling for Agenda",
   "main": "index.js",
   "scripts": {
